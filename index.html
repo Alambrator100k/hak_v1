@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوت التتبع والإسبام</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-robot"></i> بوت التتبع والإسبام</h1>
+        <p>جميع أدوات التتبع وخدمات الإسبام في مكان واحد</p>
+    </header>
+
+    <div class="container">
+        <div class="auth-section" id="authSection">
+            <h2>تسجيل الدخول</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userId">معرف المستخدم:</label>
+                    <input type="text" id="userId" required>
+                </div>
+                <button type="submit">دخول</button>
+            </form>
+            <p class="error-message" id="loginError"></p>
+        </div>
+
+        <div class="main-menu" id="mainMenu" style="display: none;">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="showSection('ipTrack')">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>تتبع IP</span>
+                </div>
+                <div class="menu-item" onclick="showSection('phoneTrack')">
+                    <i class="fas fa-phone"></i>
+                    <span>تتبع رقم الهاتف</span>
+                </div>
+                <div class="menu-item" onclick="showSection('usernameTrack')">
+                    <i class="fas fa-user"></i>
+                    <span>تتبع اسم المستخدم</span>
+                </div>
+                <div class="menu-item" onclick="showMyIP()">
+                    <i class="fas fa-globe"></i>
+                    <span>IP الخاص بي</span>
+                </div>
+                <div class="menu-item" onclick="showSection('callSpam')">
+                    <i class="fas fa-phone-volume"></i>
+                    <span>إسبام مكالمات</span>
+                </div>
+                <div class="menu-item" onclick="showSection('smsSpam')">
+                    <i class="fas fa-sms"></i>
+                    <span>إسبام رسائل</span>
+                </div>
+                <div class="menu-item" onclick="showSection('gmailSpam')">
+                    <i class="fas fa-envelope"></i>
+                    <span>إسبام جيميل</span>
+                </div>
+                <div class="menu-item" onclick="showSection('ddos')">
+                    <i class="fas fa-bolt"></i>
+                    <span>هجوم DDoS</span>
+                </div>
+                <div class="menu-item" onclick="showInfo()">
+                    <i class="fas fa-info-circle"></i>
+                    <span>معلومات البوت</span>
+                </div>
+                <div class="menu-item" onclick="showChannels()">
+                    <i class="fas fa-tv"></i>
+                    <span>قنوات رسمية</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- أقسام الوظائف -->
+        <div class="section" id="ipTrack" style="display: none;">
+            <h2><i class="fas fa-map-marker-alt"></i> تتبع IP</h2>
+            <form id="ipTrackForm">
+                <div class="form-group">
+                    <label for="ipAddress">عنوان IP:</label>
+                    <input type="text" id="ipAddress" required>
+                </div>
+                <button type="submit">تتبع</button>
+            </form>
+            <div class="result" id="ipResult"></div>
+        </div>
+
+        <div class="section" id="phoneTrack" style="display: none;">
+            <h2><i class="fas fa-phone"></i> تتبع رقم الهاتف</h2>
+            <form id="phoneTrackForm">
+                <div class="form-group">
+                    <label for="phoneNumber">رقم الهاتف (مع رمز الدولة):</label>
+                    <input type="text" id="phoneNumber" required placeholder="+20123456789">
+                </div>
+                <button type="submit">تتبع</button>
+            </form>
+            <div class="result" id="phoneResult"></div>
+        </div>
+
+        <div class="section" id="usernameTrack" style="display: none;">
+            <h2><i class="fas fa-user"></i> تتبع اسم المستخدم</h2>
+            <form id="usernameTrackForm">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم:</label>
+                    <input type="text" id="username" required placeholder="بدون @">
+                </div>
+                <button type="submit">تتبع</button>
+            </form>
+            <div class="result" id="usernameResult"></div>
+        </div>
+
+        <!-- أقسام الإسبام -->
+        <div class="section" id="callSpam" style="display: none;">
+            <h2><i class="fas fa-phone-volume"></i> إسبام مكالمات</h2>
+            <form id="callSpamForm">
+                <div class="form-group">
+                    <label for="callNumber">رقم الهاتف (بدون كود الدولة):</label>
+                    <input type="text" id="callNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="callCount">عدد المكالمات:</label>
+                    <input type="number" id="callCount" required min="1" max="100">
+                </div>
+                <button type="submit">بدء الإسبام</button>
+            </form>
+            <div class="result" id="callSpamResult"></div>
+        </div>
+
+        <div class="section" id="smsSpam" style="display: none;">
+            <h2><i class="fas fa-sms"></i> إسبام رسائل</h2>
+            <form id="smsSpamForm">
+                <div class="form-group">
+                    <label for="smsNumber">رقم الهاتف (بدون كود الدولة):</label>
+                    <input type="text" id="smsNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="smsCount">عدد الرسائل:</label>
+                    <input type="number" id="smsCount" required min="1" max="100">
+                </div>
+                <button type="submit">بدء الإسبام</button>
+            </form>
+            <div class="result" id="smsSpamResult"></div>
+        </div>
+
+        <div class="section" id="gmailSpam" style="display: none;">
+            <h2><i class="fas fa-envelope"></i> إسبام جيميل</h2>
+            <form id="gmailSpamForm">
+                <div class="form-group">
+                    <label for="gmailAddress">عنوان الجيميل:</label>
+                    <input type="email" id="gmailAddress" required>
+                </div>
+                <div class="form-group">
+                    <label for="gmailCount">عدد الرسائل:</label>
+                    <input type="number" id="gmailCount" required min="1" max="100">
+                </div>
+                <button type="submit">بدء الإسبام</button>
+            </form>
+            <div class="result" id="gmailSpamResult"></div>
+        </div>
+
+        <div class="section" id="ddos" style="display: none;">
+            <h2><i class="fas fa-bolt"></i> هجوم DDoS</h2>
+            <form id="ddosForm">
+                <div class="form-group">
+                    <label for="targetUrl">رابط الموقع:</label>
+                    <input type="url" id="targetUrl" required placeholder="http://example.com">
+                </div>
+                <div class="form-group">
+                    <label for="threadCount">عدد الثريدات:</label>
+                    <input type="number" id="threadCount" required min="1" max="1000">
+                </div>
+                <button type="submit">بدء الهجوم</button>
+                <button type="button" onclick="stopDDoS()">إيقاف الهجوم</button>
+            </form>
+            <div class="result" id="ddosResult">
+                <div class="stats">
+                    <p>الطلبات الناجحة: <span id="successRequests">0</span></p>
+                    <p>أخطاء الخادم: <span id="serverErrors">0</span></p>
+                    <p>أخطاء أخرى: <span id="otherErrors">0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- زر العودة -->
+        <button class="back-btn" id="backBtn" style="display: none;" onclick="showMainMenu()">
+            <i class="fas fa-arrow-left"></i> العودة للقائمة الرئيسية
+        </button>
+    </div>
+
+    <!-- نافذة المعلومات -->
+    <div class="modal" id="infoModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('infoModal')">&times;</span>
+            <h2>معلومات البوت</h2>
+            <div class="info-content">
+                <p><i class="fas fa-user"></i> اسم المطور: 𓄂َِ𝘼𝙎⭑𝗔‌‌꯭𝗟‌‌꯭ 𝔸𝕄𝔹ℝ𝔸�𝕋𝕆ℝ༗</p>
+                <p><i class="fab fa-youtube"></i> يوتيوب: Alambrator_AS</p>
+                <p><i class="fab fa-telegram"></i> تيليجرام: @as_bot_as</p>
+                <p><i class="fas fa-envelope"></i> جيميل: aiyemin563@gmail.com</p>
+                <p><i class="fab fa-whatsapp"></i> واتساب: +201080482163</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة القنوات -->
+    <div class="modal" id="channelsModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('channelsModal')">&times;</span>
+            <h2>القنوات الرسمية</h2>
+            <div class="channels">
+                <a href="https://t.me/as_bot_as" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> قناة المطور
+                </a>
+                <a href="https://youtube.com/@alambrator_as" target="_blank" class="channel-link">
+                    <i class="fab fa-youtube"></i> قناة اليوتيوب
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
